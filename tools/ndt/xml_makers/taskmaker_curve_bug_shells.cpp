@@ -21,7 +21,7 @@ int main()
         std::cout << "Begining" << endl;
 
         string inp;
-        std::cout << "Введите с каким типом таска работаете\n";
+        std::cout << "Введите c каким типом таска работаете\n";
         std::cin >> inp;
 
         // int N = 20;
@@ -34,10 +34,10 @@ int main()
                 if (fabs(height - 0) < 0.0001) {
                         height = 0.04;
                 }
-                ifstream fi("../../tasks/objects/shells/" + inp + "/papper_i.xml", std::ios::in);
+                ifstream fi("../../../tasks/objects/shells/" + inp + "/papper_i.xml", std::ios::in);
 
                 //string tns = (tasknumber < 10 ? "0" : "") + to_string(tasknumber);
-                ofstream fo("../../tasks/objects/shells/" + inp + "/papper_" + round3(height, '_') + ".xml");
+                ofstream fo("../../../tasks/objects/shells/" + inp + "/papper_" + round3(height, '_') + ".xml");
                 
                 char c = fi.get();
                 while (!fi.eof()) {

@@ -1,0 +1,64 @@
+<task numberOfSnaps="1000" stepsPerSnap="5" xmlns:ndi="gcm3d.plugins.ndi">
+        <system>
+                <loadPlugin name="ndi" />
+                <timeStep fixed="1e-06" />                
+                <meshMovement type="none" />
+                <prefix front="papper_half_volume_"/>
+        </system>
+        <bodies>
+                <body id="shell">
+                        <rheology type="elastic" />
+                        <mesh id="main_mesh" type="geo2" file="models/shells/half_volume2.geo" tetrSize="0.06" />
+
+                        <material id="steel_new_material" />
+                </body>
+	    </bodies>
+
+        <materials>
+                <material name="steel_new_material" rheology="isotropic">
+
+                        <la>121153846153.84615</la>
+                        <mu>80769230769.23077</mu>
+
+                        <rho>7800</rho>
+                </material>
+        </materials>
+
+
+        <borderCondition calculator="ConsumingBorderCalculator">
+                <area type="box" minX="-10" maxX="10" minY="-11" maxY="11" minZ="-10" maxZ="-4.99"/>
+        </borderCondition>
+
+        <borderCondition calculator="ConsumingBorderCalculator">
+                <area type="box" minX="-10" maxX="-0.99" minY="-11" maxY="11" minZ="-10" maxZ="3"/>
+        </borderCondition>
+
+        <borderCondition calculator="ConsumingBorderCalculator">
+                <area type="box" minX="0.99" maxX="10" minY="-11" maxY="11" minZ="-10" maxZ="3"/>
+        </borderCondition>
+
+        <borderCondition calculator="ConsumingBorderCalculator">
+                <area type="box" minX="-10" maxX="10" minY="-11" maxY="-9.99" minZ="-10" maxZ="3"/>
+        </borderCondition>
+        <borderCondition calculator="ConsumingBorderCalculator">
+                <area type="box" minX="-10" maxX="10" minY="9.99" maxY="11" minZ="-10" maxZ="3"/>
+        </borderCondition>
+
+	<!--ndi:emitter name="em" sensor="true"-->
+                <!--borderCondition calculator="ExternalForceCalculator" normalStress="1" tangentialStress="0.0" startTime = "0.0" type="sinus_gauss" omega="50000" tau="100e5">
+		<area type="box" minX="4.5" maxX="5.5" minY="-0.01" maxY="0.01" minZ="-0.5" maxZ="0.5"/>
+</borderCondition-->
+		<!--values vy="100.0" /-->
+	<!--/ndi:emitter-->
+
+        <!-- there could be the moment sensor -->
+
+        <initialState>
+                <area type="box" minX="-0.05" maxX="0.05" minY="-0.05" maxY="0.05" minZ="-2.55" maxZ="-2.45"/>
+                <values sxx="100" syy="100" szz="100" />
+                
+                <!-- help: values vx="100" grad_hight="5" axes="1" zero_move="-2.5" -->
+
+        </initialState>
+
+</task>

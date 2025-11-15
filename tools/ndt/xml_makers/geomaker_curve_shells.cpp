@@ -24,10 +24,10 @@ int main()
         // float dx = (1200.0 - xmin - xmax) / (N - 1);
         for (double height = 1; height >= 0.2; height -= 0.1)
         {       
-                ifstream fi("../../models/shells/papper_z_i.geo", std::ios::in);
+                ifstream fi("../../../models/shells/papper_z_i.geo", std::ios::in);
 
                 //string tns = (tasknumber < 10 ? "0" : "") + to_string(tasknumber);
-                ofstream fo("../../models/shells/papper_z_" + round3(height, '_') + ".geo");
+                ofstream fo("../../../models/shells/papper_z_" + round3(height, '_') + ".geo");
                 
                 char c = fi.get();
                 while (!fi.eof()) {
@@ -59,10 +59,10 @@ int main()
 
         for (double height = 0.1; height > 0.03; height -= 0.0599999999)
         {       
-                ifstream fi("../../models/shells/papper_z_i.geo", std::ios::in);
+                ifstream fi("../../../models/shells/papper_z_i.geo", std::ios::in);
 
                 //string tns = (tasknumber < 10 ? "0" : "") + to_string(tasknumber);
-                ofstream fo("../../models/shells/papper_z_" + round3(height, '_') + ".geo");
+                ofstream fo("../../../models/shells/papper_z_" + round3(height, '_') + ".geo");
                 
                 char c = fi.get();
                 while (!fi.eof()) {

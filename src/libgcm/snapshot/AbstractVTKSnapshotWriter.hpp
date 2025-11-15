@@ -136,6 +136,9 @@ namespace gcm
             bool calculate_moments = (_mesh->getId() == "interp_mesh");
 
             // I have to declare this three objects here out of ifв
+            auto wx = vtkSmartPointer<vtkDoubleArray>::New();
+            auto wy = vtkSmartPointer<vtkDoubleArray>::New();
+
             auto Myy = vtkSmartPointer<vtkDoubleArray>::New();
             auto Mxx = vtkSmartPointer<vtkDoubleArray>::New();
             auto Mxy = vtkSmartPointer<vtkDoubleArray>::New();
@@ -223,6 +226,10 @@ namespace gcm
                 if (calculate_moments) {
 
                     if (node.isBorder()) {
+                        // TODO zeros on the borders, it has no value I think 
+                        wx->InsertNextValue(0);
+                        wy->InsertNextValue(0);
+
                         Mxx->InsertNextValue(0);
                         Myy->InsertNextValue(0);
                         Mxy->InsertNextValue(0);
@@ -230,6 +237,11 @@ namespace gcm
 
                     else {
                         CalcNode upper_neighbour, lower_neighbour;
+                        
+                        // both of two this calculations take a plase with linear dependence of speed and stranges
+                        // on hieght
+                        // more unlinearity lead less correctnesso this two formulas
+                        // but the reasons are different
 
                         auto rect_mesh = dynamic_cast<RectangularMesh*>(_mesh);
                         if (! rect_mesh->findUpperNeighbour(upper_neighbour, it.getIndex())) {
@@ -239,7 +251,11 @@ namespace gcm
                             LOG_ERROR("Problens with lower neighbour in calculating momets of strength.");
                         }
                         else {
-                            double h = (upper_neighbour.coords[2] - lower_neighbour.coords[2]) / 2.;
+                            // there was ---/2. earlier idk why
+                            double h = upper_neighbour.coords[2] - lower_neighbour.coords[2];
+
+                            wx->InsertNextValue((upper_neighbour.vx + lower_neighbour.vx - node.vx * 2) / h);
+                            wy->InsertNextValue((upper_neighbour.vy + lower_neighbour.vy - node.vy * 2) / h);
 
                             Mxx->InsertNextValue((upper_neighbour.sxx - lower_neighbour.sxx) / 12 * h * h);
                             Myy->InsertNextValue((upper_neighbour.syy - lower_neighbour.syy) / 12 * h * h);
@@ -290,6 +306,9 @@ namespace gcm
 
 
             if (calculate_moments) {
+                fd->AddArray(wx);
+                fd->AddArray(wy);
+
                 fd->AddArray(Mxx);
                 fd->AddArray(Myy);
                 fd->AddArray(Mxy);

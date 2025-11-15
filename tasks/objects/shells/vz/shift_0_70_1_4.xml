@@ -1,0 +1,63 @@
+<task numberOfSnaps="5000" stepsPerSnap="2" xmlns:ndi="gcm3d.plugins.ndi">
+	<system>
+		<loadPlugin name="ndi" />
+		<timeStep fixed="1e-06" />                
+		<meshMovement type="none" />
+	        <prefix front="papper_0_70_"/>
+	</system>
+	<bodies>
+		<body id="shell">
+                        <rheology type="elastic" />
+                        <mesh id="main_mesh" type="geo2" file="models/shells/papper_z_0_70_5.geo" tetrSize="0.04" />
+                        
+
+                        <mesh id="interp_mesh" type="rectangle" calc="false" sx="0.04" sy="0.04" sz="0.35" numX="600" numY="125" numZ="2" />  <!-- sm. Mesh for calculating moments -->                
+                        <!-- i_mesh needed here for moving interp_mesh -->
+                        <transform type="translate" i_mesh="1" moveX="-12" moveY="0" moveZ="-0.70" />
+
+                        <material id="steel_new_material" />
+                </body>
+	</bodies>
+
+        <materials>
+                <material name="steel_new_material" rheology="isotropic">
+
+                        <la>121153846153.84615</la>
+                        <mu>80769230769.23077</mu>
+
+                        <rho>7800</rho>
+                </material>
+        </materials>
+
+
+	<!--ndi:emitter name="em" sensor="true"-->
+                <!--borderCondition calculator="ExternalForceCalculator" normalStress="1" tangentialStress="0.0" startTime = "0.0" type="sinus_gauss" omega="50000" tau="100e5">
+		<area type="box" minX="4.5" maxX="5.5" minY="-0.01" maxY="0.01" minZ="-0.5" maxZ="0.5"/>
+</borderCondition-->
+		<!--values vy="100.0" /-->
+	<!--/ndi:emitter-->
+
+        <!-- there could be the moment sensor -->
+
+        <borderCondition calculator="ConsumingBorderCalculator">
+                <area type="box" minX="-13" maxX="13" minY="-1" maxY="0.01" minZ="-2" maxZ="2"/>
+        </borderCondition>
+
+        <borderCondition calculator="ConsumingBorderCalculator">
+                <area type="box" minX="-15" maxX="-11.99" minY="-1" maxY="7" minZ="-2" maxZ="2"/>
+        </borderCondition>
+
+        <borderCondition calculator="ConsumingBorderCalculator">
+                <area type="box" minX="11.99" maxX="15" minY="-1" maxY="7" minZ="-2" maxZ="2"/>
+        </borderCondition>
+
+
+        <initialState>
+                <area type="box" minX="-0.05" maxX="0.05" minY="3.55" maxY="3.65" minZ="-1.1" maxZ="0.1"/>
+                <values vz="100" />
+                
+                <!-- help: values vx="100" grad_hight="5" axes="1" zero_move="-2.5" -->
+
+        </initialState>
+
+</task>
